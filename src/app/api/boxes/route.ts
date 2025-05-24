@@ -1,12 +1,12 @@
-import { createBox, createDatabase } from "@src/lib/notion";
+import { createBox } from "@src/lib/notion";
 import { notion } from "@src/lib/notion";
 import { NextResponse } from "next/server";
 import { getDatabaseId } from "@src/lib/db";
 import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
-export async function POST(request: Request) {
+export async function POST(req: Request) {
   try {
-    const { name, description } = await request.json();
+    const { name, description } = await req.json();
 
     if (!name) {
       return NextResponse.json({ error: "Name is required" }, { status: 400 });
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const databaseId = await getDatabaseId();
 

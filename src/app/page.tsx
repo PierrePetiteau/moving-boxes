@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { BoxIcon, PlusIcon, Trash2, X, QrCode } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Box } from "@src/lib/notion";
 import { setDatabaseId } from "@src/lib/db";
 import QRScanner from "@src/components/QRScanner";
@@ -274,7 +275,13 @@ export default function Home() {
               >
                 {box.photos && box.photos.length > 0 && (
                   <div className="aspect-video relative">
-                    <img src={box.photos[0]} alt={`Preview of ${box.name}`} className="w-full h-full object-cover" />
+                    <Image
+                      src={box.photos[0]}
+                      alt={`Preview of ${box.name}`}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
                   </div>
                 )}
                 <div className="p-6">

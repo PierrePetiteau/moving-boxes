@@ -7,6 +7,7 @@ import { Box } from "@src/lib/notion";
 import { updateBox, uploadPhotos, deletePhoto } from "@src/app/actions";
 import { useRouter } from "next/navigation";
 import QRScanner from "@src/components/QRScanner";
+import Image from "next/image";
 
 interface BoxDetailsProps {
   initialBox: Box;
@@ -350,26 +351,30 @@ export default function BoxDetails({ initialBox }: BoxDetailsProps) {
               </button>
             }
           >
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-              {box.photos?.map((photo, index) => (
-                <div key={index} className="relative group aspect-square">
-                  <img
-                    src={photo}
-                    alt={`Box photo ${index + 1}`}
-                    className="w-full h-full object-cover rounded-lg cursor-pointer"
-                    onClick={() => handlePhotoClick(index)}
-                  />
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleDeletePhoto(photo);
-                    }}
-                    className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
-                </div>
-              ))}
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {box.photos?.map((photo, index) => (
+                  <div key={index} className="relative group aspect-square">
+                    <Image
+                      src={photo}
+                      alt={`Box photo ${index + 1}`}
+                      fill
+                      className="object-cover rounded-lg cursor-pointer"
+                      sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                      onClick={() => handlePhotoClick(index)}
+                    />
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleDeletePhoto(photo);
+                      }}
+                      className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
             <input
               ref={fileInputRef}
