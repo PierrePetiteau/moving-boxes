@@ -1,12 +1,5 @@
 import { Client } from "@notionhq/client";
-import {
-  PageObjectResponse,
-  DatabaseObjectResponse,
-  PartialPageObjectResponse,
-  PartialDatabaseObjectResponse,
-  RichTextItemResponse,
-  SelectPropertyResponse,
-} from "@notionhq/client/build/src/api-endpoints";
+import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { getDatabaseId } from "./db";
 import { randomUUID } from "crypto";
 
@@ -204,10 +197,11 @@ export async function getBoxes(databaseId: string): Promise<Box[]> {
     });
 
     return response.results.map((page) => {
-      const name = page.properties.Name.title[0]?.plain_text || "Untitled";
-      const status = page.properties.Status.select?.name || "Unknown";
-      const location = page.properties.Location.rich_text[0]?.plain_text || "Unknown";
-      const description = page.properties.Description.rich_text[0]?.plain_text || "";
+      const properties = (page as any).properties;
+      const name = properties.Name.title[0]?.plain_text || "Untitled";
+      const status = properties.Status.select?.name || "Unknown";
+      const location = properties.Location.rich_text[0]?.plain_text || "Unknown";
+      const description = properties.Description.rich_text[0]?.plain_text || "";
 
       return {
         id: page.id,
@@ -215,7 +209,7 @@ export async function getBoxes(databaseId: string): Promise<Box[]> {
         status,
         location,
         description,
-      };
+      } as unknown as Box;
     });
   } catch (error) {
     console.error("Error fetching boxes:", error);

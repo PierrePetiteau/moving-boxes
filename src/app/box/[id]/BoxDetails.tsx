@@ -473,10 +473,13 @@ export default function BoxDetails({ initialBox }: BoxDetailsProps) {
             className="relative w-full h-full flex items-center justify-center"
             onClick={(e) => e.stopPropagation()} // Prevent closing when clicking the image container
           >
-            <img
+            <Image
               src={box.photos[currentPhotoIndex]}
               alt={`Box photo ${currentPhotoIndex + 1}`}
-              className="max-h-full max-w-full object-contain"
+              fill
+              className="object-contain"
+              sizes="100vw"
+              priority
             />
 
             {/* Navigation buttons */}
