@@ -28,10 +28,6 @@ interface NotionProperties {
     type: "rich_text";
     rich_text: Array<{ plain_text: string }>;
   };
-  Location?: {
-    type: "select";
-    select?: { name: string };
-  };
 }
 
 export const notion = new Client({
@@ -73,7 +69,6 @@ export async function getBoxByQRId(qrId: string): Promise<Box | null> {
         : [],
       status: properties.Statut?.select?.name || "",
       qrId: properties.QR_ID?.rich_text[0]?.plain_text || "",
-      location: properties.Location?.select?.name || "",
     };
   } catch (error) {
     console.error("Error fetching box by QR ID:", error);
