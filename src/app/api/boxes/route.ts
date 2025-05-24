@@ -1,10 +1,10 @@
 import { createBox } from "@src/lib/notion";
 import { notion } from "@src/lib/notion";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getDatabaseId } from "@src/lib/db";
 import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   try {
     const { name, description } = await req.json();
 

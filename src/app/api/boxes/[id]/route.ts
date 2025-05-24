@@ -1,13 +1,13 @@
 import { notion } from "@src/lib/notion";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
 // Initialize Supabase client with service role key for uploads
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
 
-export async function DELETE(request: Request, { params }: { params: { id: string } }) {
+export async function DELETE(_: NextRequest, context: { params: { id: string } }) {
   try {
-    const boxId = params.id;
+    const boxId = context.params.id;
 
     // Delete photos from Supabase storage
     const { data: files, error: listError } = await supabase.storage.from("photos").list(boxId);

@@ -1,6 +1,6 @@
 import { createDatabase } from "@src/lib/notion";
 import { setDatabaseId } from "@src/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -14,7 +14,7 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
+export async function POST(request: NextRequest) {
   try {
     // Check if required environment variables are set
     if (!process.env.NOTION_API_KEY) {
