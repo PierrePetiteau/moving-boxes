@@ -5,9 +5,9 @@ import { createClient } from "@supabase/supabase-js";
 // Initialize Supabase client with service role key for uploads
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
 
-export async function DELETE(request: Request, context: { params: { id: string } }) {
+export async function DELETE(request: Request, { params }: { params: { id: string } }) {
   try {
-    const boxId = context.params.id;
+    const boxId = params.id;
 
     // Delete photos from Supabase storage
     const { data: files, error: listError } = await supabase.storage.from("photos").list(boxId);
