@@ -24,9 +24,9 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY! // Use service role key for uploads
 );
 
-// Validate QR ID format (8-character hexadecimal)
+// Validate QR ID format (8-character hexadecimal or b + 6 digits)
 function isValidQRId(qrId: string): boolean {
-  return /^[0-9a-f]{8}$/.test(qrId);
+  return /^[0-9a-f]{8}$/.test(qrId) || /^b\d{6}$/.test(qrId);
 }
 
 // Ensure the photos bucket exists
@@ -60,7 +60,9 @@ export async function updateBox(boxId: string, data: Partial<Box>) {
     // Validate QR ID if provided
     if (data.qrId && !isValidQRId(data.qrId)) {
       console.log("[updateBox] Invalid QR ID format:", data.qrId);
-      throw new Error("Invalid QR ID format. Must be 8 hexadecimal characters (e.g., 0b66003c)");
+      throw new Error(
+        "Invalid QR ID format. Must be 8 hexadecimal characters (e.g., 0b66003c) or b followed by 6 digits (e.g., b123456)"
+      );
     }
 
     const properties: UpdatePageParameters["properties"] = {
